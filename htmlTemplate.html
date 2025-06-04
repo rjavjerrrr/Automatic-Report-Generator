@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Procurement Pricing HC Report | Company Name</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f5f7fa;
+        margin: 0;
+        padding: 0;
+        color: #2c3e50;
+        line-height: 1.6;
+      }
+
+      .main-container {
+        width: 100%;
+        border: 0;
+        border-spacing: 0;
+        border-collapse: collapse;
+        background-color: #f5f7fa;
+      }
+
+      .content-table {
+        width: 95%;
+        max-width: 650px;
+        margin: 30px auto;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        border-spacing: 0;
+        border-collapse: collapse;
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+        padding: 32px 25px 28px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+      }
+
+      .header p {
+        margin: 8px 0 0;
+        font-size: 15px;
+        opacity: 0.9;
+        font-weight: 400;
+        color: #ffffff;
+      }
+
+      .greeting {
+        padding: 28px 30px;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ecf0f1;
+      }
+
+      .greeting strong {
+        color: #2c3e50;
+      }
+
+      .greeting .recipient-name {
+        color: #3498db;
+      }
+
+      .status-legend {
+        margin: 15px 0 5px;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.3px;
+        margin-right: 8px;
+      }
+
+      .status-badge .status-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 6px;
+      }
+
+      .completed-badge {
+        background-color: rgba(39, 174, 96, 0.1);
+        color: #27ae60;
+        border: 1px solid rgba(39, 174, 96, 0.3);
+      }
+
+      .completed-badge .status-dot {
+        background-color: #27ae60;
+      }
+
+      .inprocess-badge {
+        background-color: rgba(243, 156, 18, 0.1);
+        color: #f39c12;
+        border: 1px solid rgba(243, 156, 18, 0.3);
+      }
+
+      .inprocess-badge .status-dot {
+        background-color: #f39c12;
+      }
+
+      .novolume-badge {
+        background-color: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+        border: 1px solid rgba(231, 76, 60, 0.3);
+      }
+
+      .novolume-badge .status-dot {
+        background-color: #e74c3c;
+      }
+
+      .section-header {
+        padding: 14px 30px;
+        font-size: 15px;
+        font-weight: 600;
+        text-align: left;
+        letter-spacing: 0.3px;
+      }
+
+      .section-header .section-dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .section-header .count-badge {
+        background-color: rgba(0, 0, 0, 0.15);
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+
+      .completed-header {
+        background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+        color: #ffffff;
+      }
+
+      .completed-header .section-dot {
+        background-color: #ffffff;
+      }
+
+      .inprocess-header {
+        background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        color: #ffffff;
+      }
+
+      .inprocess-header .section-dot {
+        background-color: #ffffff;
+      }
+
+      .novolume-header {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: #ffffff;
+      }
+
+      .novolume-header .section-dot {
+        background-color: #ffffff;
+      }
+
+      .section-content {
+        padding: 0 30px 25px;
+      }
+
+      .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .items-table th {
+        background-color: #34495e;
+        color: #ffffff;
+        font-weight: 600;
+        text-align: left;
+        padding: 15px 12px;
+        letter-spacing: 0.3px;
+        position: sticky;
+        top: 0;
+      }
+
+      .items-table td {
+        padding: 12px;
+        border-bottom: 1px solid #ecf0f1;
+        vertical-align: middle;
+      }
+
+      .row-even {
+        background-color: #ffffff;
+      }
+
+      .row-odd {
+        background-color: #f8f9fa;
+      }
+
+      .product-id {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .item-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+      }
+
+      .item-status .status-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 6px;
+      }
+
+      .completed-status {
+        background-color: rgba(39, 174, 96, 0.1);
+        color: #27ae60;
+      }
+
+      .completed-status .status-dot {
+        background-color: #27ae60;
+      }
+
+      .inprocess-status {
+        background-color: rgba(243, 156, 18, 0.1);
+        color: #f39c12;
+      }
+
+      .inprocess-status .status-dot {
+        background-color: #f39c12;
+      }
+
+      .novolume-status {
+        background-color: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+      }
+
+      .novolume-status .status-dot {
+        background-color: #e74c3c;
+      }
+
+      .delay {
+        font-weight: 500;
+      }
+
+      .completed-delay {
+        color: #27ae60;
+      }
+
+      .inprocess-delay {
+        color: #f39c12;
+      }
+
+      .novolume-delay {
+        color: #e74c3c;
+      }
+
+      .action-link {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .button-container {
+        padding: 30px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #ecf0f1;
+        text-align: center;
+      }
+
+      .main-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+        color: #ffffff;
+        text-decoration: none;
+        padding: 13px 38px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+        letter-spacing: 0.3px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .main-button:hover {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+      }
+
+      .footer {
+        background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+        color: #ffffff;
+        text-align: center;
+        padding: 22px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+        line-height: 1.5;
+      }
+
+      .footer-copyright {
+        margin-top: 5px;
+        font-size: 12px;
+        opacity: 0.9;
+      }
+
+      .cost {
+        font-weight: 600;
+      }
+
+      .volume-high {
+        color: #27ae60;
+        font-weight: 600;
+      }
+
+      .volume-medium {
+        color: #f39c12;
+        font-weight: 600;
+      }
+
+      .volume-low {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      .responsive-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      @media (max-width: 600px) {
+        .content-table {
+          width: 100%;
+          margin: 15px auto;
+          border-radius: 0;
+        }
+
+        .header,
+        .greeting,
+        .section-content,
+        .button-container {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+
+        .items-table th,
+        .items-table td {
+          padding: 10px 8px;
+          font-size: 13px;
+        }
+
+        .main-button {
+          padding: 10px 25px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main Container -->
+    <table class="main-container">
+      <tr>
+        <td align="center" valign="top">
+          <table class="content-table">
+            <!-- Header -->
+            <tr>
+              <td class="header">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td>
+                      <h1>Procurement Pricing PC Report</h1>
+                      <p>
+                        Weekly Status Update |
+                        <?= data.reportDate ?>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Greeting -->
+            <tr>
+              <td class="greeting">
+                <p style="margin: 0 0 15px 0">
+                  <strong
+                    >Dear
+                    <span class="recipient-name"><?= data.recipientName ?></span
+                    >,</strong
+                  >
+                </p>
+                <p style="margin: 0 0 15px 0">
+                  Here's your weekly procurement status report highlighting the
+                  current progress of all materials in our pipeline.
+                </p>
+
+                <!-- Status Legend -->
+                <table class="status-legend">
+                  <tr>
+                    <td>
+                      <span class="status-badge completed-badge">
+                        <span class="status-dot"></span>
+                        Completed (<?= data.completedCount ?>)
+                      </span>
+                      <span class="status-badge inprocess-badge">
+                        <span class="status-dot"></span>
+                        In Process (<?= data.inProcessCount ?>)
+                      </span>
+                      <span class="status-badge novolume-badge">
+                        <span class="status-dot"></span>
+                        No Volume (<?= data.noVolumeCount ?>)
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Completed Section -->
+            <? if (data.completedCount > 0) { ?>
+            <tr>
+              <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="section-header completed-header">
+                      <span class="section-dot"></span>
+                      Completed Items
+                      <span class="count-badge"><?= data.completedCount ?></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="section-content">
+                      <div class="responsive-table">
+                        <table class="items-table">
+                          <thead>
+                            <tr>
+                              <th>Material</th>
+                              <th>Description</th>
+                              <th>Plant</th>
+                              <th>Supplier</th>
+                              <th>Cost</th>
+                              <th>Volume</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <? data.completedItems.forEach(function(item, index) { ?>
+                            <tr class="<?= index % 2 === 0 ? 'row-even' : 'row-odd' ?>">
+                              <td class="product-id"><?= item[0] ?></td>
+                              <td><?= item[1] ?></td>
+                              <td><?= item[6] ?></td>
+                              <td><?= item[5] ?></td>
+                              <td class="cost">$<?= Number(item[7]).toFixed(2) ?></td>
+                              <td><?= item[8] ?></td>
+                              <td>
+                                <span class="item-status completed-status">
+                                  <span class="status-dot"></span>
+                                  <?= item[2] ?>
+                                </span>
+                              </td>
+                            </tr>
+                            <? }); ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <? } ?>
+
+            <!-- In Process Section -->
+            <? if (data.inProcessCount > 0) { ?>
+            <tr>
+              <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="section-header inprocess-header">
+                      <span class="section-dot"></span>
+                      Items In Process
+                      <span class="count-badge"><?= data.inProcessCount ?></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="section-content">
+                      <div class="responsive-table">
+                        <table class="items-table">
+                          <thead>
+                            <tr>
+                              <th>Material</th>
+                              <th>Description</th>
+                              <th>Plant</th>
+                              <th>Supplier</th>
+                              <th>Days</th>
+                              <th>Current price IR</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <? data.inProcessItems.forEach(function(item, index) { ?>
+                            <tr class="<?= index % 2 === 0 ? 'row-even' : 'row-odd' ?>">
+                              <td class="product-id"><?= item[0] ?></td>
+                              <td><?= item[1] ?></td>
+                              <td><?= item[6] ?></td>
+                              <td><?= item[5] ?></td>
+                              <td class="delay inprocess-delay"><?= item[3] ?> days</td>
+                              <td class="cost">$<?= Number(item[9]).toFixed(2) ?></td>
+                              <td>
+                                <span class="item-status inprocess-status">
+                                  <span class="status-dot"></span>
+                                  <?= item[2] ?>
+                                </span>
+                              </td>
+                            </tr>
+                            <? }); ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <? } ?>
+
+            <!-- No Volume Section -->
+            <? if (data.noVolumeCount > 0) { ?>
+            <tr>
+              <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="section-header novolume-header">
+                      <span class="section-dot"></span>
+                      No Volume Items
+                      <span class="count-badge"><?= data.noVolumeCount ?></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="section-content">
+                      <div class="responsive-table">
+                        <table class="items-table">
+                          <thead>
+                            <tr>
+                              <th>Material</th>
+                              <th>Description</th>
+                              <th>Plant</th>
+                              <th>Supplier</th>
+                              <th>Current price IR</th>
+                              <th>Volume</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <? data.noVolumeItems.forEach(function(item, index) { ?>
+                            <tr class="<?= index % 2 === 0 ? 'row-even' : 'row-odd' ?>">
+                              <td class="product-id"><?= item[0] ?></td>
+                              <td><?= item[1] ?></td>
+                              <td><?= item[6] ?></td>
+                              <td><?= item[5] || 'N/A' ?></td>
+                              <td class="cost">$<?= Number(item[9]).toFixed(2) ?></td>
+                              <td><?= item[8] ?></td>
+                              <td>
+                                <span class="item-status novolume-status">
+                                  <span class="status-dot"></span>
+                                  <?= item[2] ?>
+                                </span>
+                              </td>
+                            </tr>
+                            <? }); ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <? } ?>
+
+            <!-- Button -->
+            <tr>
+              <td class="button-container">
+                <a href="https://docs.google.com/document/d/ID_DEL_DOCUMENTO/edit" class="main-button" target="_blank">
+                                View Complete Report in Portal
+                </a>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td class="footer">
+                <div>Prepared by Procurement Team</div>
+                <div class="footer-copyright">
+                  &copy; <?= new Date().getFullYear() ?> Company Name. All rights reserved.
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
